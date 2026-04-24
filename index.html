@@ -96,6 +96,8 @@
     .hero-links { display: flex; gap: 1.5rem; justify-content: center; }
     .hero-link { color: var(--text-muted); text-decoration: none; font-size: 0.88rem; font-weight: 500; display: flex; align-items: center; gap: 0.35rem; transition: color 0.2s; }
     .hero-link:hover { color: var(--accent-light); }
+    .hit-counter { margin-top: 1.8rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.78rem; letter-spacing: 0.05em; }
+    .hit-counter img { border-radius: 4px; }
     .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.4rem; color: var(--text-muted); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; animation: scrollBounce 2s ease-in-out infinite; }
     @keyframes scrollBounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
 
@@ -262,6 +264,9 @@
         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
         Get In Touch
       </a>
+    </div>
+    <div class="hit-counter">
+      <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fsudarshanmehta.github.io&count_bg=%237C3AED&title_bg=%231a1a2e&icon=eye&icon_color=%2306b6d4&title=visitors&edge_flat=true" alt="Visitor count" height="20">
     </div>
     <div class="hero-links">
       <a href="https://github.com/sudarshanmehta" class="hero-link" target="_blank" rel="noopener">
