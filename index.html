@@ -1,586 +1,720 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js" >
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudarshan Mehta — Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-card: #12121a;
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(124,58,237,0.5);
+      --accent: #7c3aed;
+      --accent-light: #a78bfa;
+      --accent-cyan: #06b6d4;
+      --text: #f1f5f9;
+      --text-muted: #64748b;
+      --text-secondary: #94a3b8;
+      --gradient: linear-gradient(135deg, #7c3aed, #06b6d4);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
 
-    <!--- basic page needs
-    ================================================== -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sudarshan</title>
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      padding: 1rem 2rem;
+      backdrop-filter: blur(20px);
+      background: rgba(10,10,15,0.85);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-size: 1.25rem; font-weight: 900;
+      background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { background: var(--accent) !important; color: white !important; padding: 0.45rem 1.2rem; border-radius: 8px; font-weight: 600 !important; }
+    .nav-cta:hover { opacity: 0.85; }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
 
-    <script>
-        document.documentElement.classList.remove('no-js');
-        document.documentElement.classList.add('js');
-    </script>
+    /* HERO */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 7rem 2rem 5rem; position: relative; overflow: hidden;
+    }
+    .hero-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .blob {
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15;
+      animation: floatBlob 10s ease-in-out infinite;
+    }
+    .blob-1 { width: 600px; height: 600px; background: #7c3aed; top: -200px; left: -150px; animation-delay: 0s; }
+    .blob-2 { width: 500px; height: 500px; background: #06b6d4; bottom: -100px; right: -100px; animation-delay: -5s; }
+    .blob-3 { width: 300px; height: 300px; background: #f59e0b; top: 40%; left: 45%; opacity: 0.08; animation-delay: -2.5s; }
+    @keyframes floatBlob {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33% { transform: translate(25px,-25px) scale(1.04); }
+      66% { transform: translate(-15px,15px) scale(0.96); }
+    }
+    .grid-overlay {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 860px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3);
+      padding: 0.4rem 1.1rem; border-radius: 100px; font-size: 0.82rem; color: var(--accent-light);
+      font-weight: 500; margin-bottom: 1.75rem;
+    }
+    .pulse { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: pulseDot 2s ease-in-out infinite; }
+    @keyframes pulseDot { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.75); } }
+    .hero-name { font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.1rem; }
+    .grad { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-role { font-size: clamp(1.05rem, 2.5vw, 1.4rem); color: var(--text-secondary); margin-bottom: 1.5rem; min-height: 2.2em; }
+    .hero-role .tw { color: var(--accent-light); font-weight: 600; }
+    .cursor { display: inline-block; width: 2px; height: 1.1em; background: var(--accent-light); margin-left: 1px; vertical-align: text-bottom; animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .hero-desc { font-size: 1rem; color: var(--text-secondary); max-width: 580px; margin: 0 auto 2.5rem; line-height: 1.75; }
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .btn { padding: 0.85rem 2rem; border-radius: 10px; font-size: 0.95rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: opacity 0.2s, transform 0.2s, border-color 0.2s; }
+    .btn-primary { background: var(--gradient); color: white; }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+    .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .hero-links { display: flex; gap: 1.5rem; justify-content: center; }
+    .hero-link { color: var(--text-muted); text-decoration: none; font-size: 0.88rem; font-weight: 500; display: flex; align-items: center; gap: 0.35rem; transition: color 0.2s; }
+    .hero-link:hover { color: var(--accent-light); }
+    .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.4rem; color: var(--text-muted); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; animation: scrollBounce 2s ease-in-out infinite; }
+    @keyframes scrollBounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
 
-    <!-- CSS
-    ================================================== -->
-    <link rel="stylesheet" href="css/vendor.css">
-    <link rel="stylesheet" href="css/styles.css">
+    /* STATS */
+    #stats { padding: 3.5rem 2rem; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .stats-grid { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 2rem; text-align: center; }
+    .stat-n { font-size: 2.4rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.1; }
+    .stat-l { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; margin-top: 0.3rem; }
 
-    <!-- favicons
-    ================================================== -->
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
+    /* SECTIONS */
+    section { padding: 6rem 2rem; }
+    .inner { max-width: 1080px; margin: 0 auto; }
+    .s-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 0.75rem; }
+    .s-title { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.85rem; }
+    .s-sub { color: var(--text-secondary); font-size: 1rem; max-width: 520px; line-height: 1.7; margin-bottom: 3rem; }
 
+    /* EXPERIENCE */
+    .exp-line { position: relative; padding-left: 2rem; }
+    .exp-line::before { content:''; position:absolute; left:0; top:12px; bottom:12px; width:1px; background: linear-gradient(to bottom, var(--accent), transparent); }
+    .exp-item { position: relative; margin-bottom: 1.75rem; }
+    .exp-item::before {
+      content:''; position:absolute; left:-2.35rem; top:1.45rem;
+      width:10px; height:10px; background: var(--accent); border-radius:50%;
+      border:2px solid var(--bg); box-shadow:0 0 0 3px rgba(124,58,237,0.25);
+    }
+    .exp-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.5rem 1.75rem;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .exp-card:hover { border-color: var(--border-hover); transform: translateX(6px); box-shadow: 0 8px 32px rgba(124,58,237,0.1); }
+    .exp-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+    .exp-co { font-size: 1.05rem; font-weight: 700; }
+    .exp-role { font-size: 0.88rem; color: var(--accent-light); font-weight: 500; margin-top: 0.15rem; }
+    .exp-period { font-size: 0.78rem; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 0.22rem 0.7rem; border-radius: 100px; display: inline-block; white-space: nowrap; }
+    .exp-loc { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem; text-align: right; }
+    .exp-bullets { list-style: none; margin-bottom: 1rem; }
+    .exp-bullets li { font-size: 0.9rem; color: var(--text-secondary); padding: 0.22rem 0 0.22rem 1.2rem; position: relative; line-height: 1.6; }
+    .exp-bullets li::before { content:'▸'; position:absolute; left:0; color:var(--accent); font-size:0.72rem; top:0.38rem; }
+    .exp-bullets li strong { color: var(--text); }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-size: 0.73rem; font-weight: 600; padding: 0.18rem 0.6rem; border-radius: 6px; background: rgba(124,58,237,0.12); color: var(--accent-light); border: 1px solid rgba(124,58,237,0.2); }
+    .tag-c { background: rgba(6,182,212,0.1); color: var(--accent-cyan); border-color: rgba(6,182,212,0.2); }
+
+    /* PROJECTS */
+    .proj-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; }
+    .proj-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.75rem; display: flex; flex-direction: column; gap: 0.85rem;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .proj-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(124,58,237,0.12); }
+    .proj-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .proj-card:nth-child(1) .proj-icon { background: rgba(124,58,237,0.15); }
+    .proj-card:nth-child(2) .proj-icon { background: rgba(6,182,212,0.12); }
+    .proj-card:nth-child(3) .proj-icon { background: rgba(245,158,11,0.12); }
+    .proj-card:nth-child(4) .proj-icon { background: rgba(34,197,94,0.12); }
+    .proj-cat { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 0.2rem; }
+    .proj-title { font-size: 1.1rem; font-weight: 700; }
+    .proj-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; flex: 1; }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem; }
+    .skill-group { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem; }
+    .sk-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.85rem; }
+    .sk-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .sk-tag {
+      font-size: 0.83rem; font-weight: 500; padding: 0.3rem 0.8rem; border-radius: 8px;
+      background: rgba(255,255,255,0.04); color: var(--text-secondary); border: 1px solid var(--border);
+      transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+      cursor: default;
+    }
+    .sk-tag:hover { background: rgba(124,58,237,0.15); color: var(--accent-light); border-color: rgba(124,58,237,0.3); transform: translateY(-2px); }
+
+    /* TESTIMONIALS */
+    .testi-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; margin-top: 3rem; }
+    .testi-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; }
+    .testi-q { font-size: 2.5rem; color: var(--accent); line-height: 1; margin-bottom: 0.75rem; font-family: Georgia, serif; }
+    .testi-text { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.25rem; }
+    .testi-author { display: flex; align-items: center; gap: 0.75rem; }
+    .testi-av { width: 40px; height: 40px; border-radius: 50%; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+    .testi-img { width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; object-fit: cover; border: 2px solid var(--border); }
+    .testi-name { font-size: 0.9rem; font-weight: 600; }
+    .testi-role { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* CONTACT */
+    #contact { background: var(--bg-card); border-top: 1px solid var(--border); }
+    .contact-wrap { max-width: 660px; margin: 0 auto; text-align: center; }
+    .contact-email { display: inline-block; font-size: 1.15rem; font-weight: 700; text-decoration: none; margin: 1.5rem 0 2rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .contact-email:hover { opacity: 0.8; }
+    .contact-links { display: flex; gap: 0.85rem; justify-content: center; flex-wrap: wrap; }
+    .c-link { display: flex; align-items: center; gap: 0.45rem; padding: 0.7rem 1.35rem; border-radius: 10px; border: 1px solid var(--border); color: var(--text-secondary); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: border-color 0.2s, color 0.2s, transform 0.2s; }
+    .c-link:hover { border-color: var(--accent); color: var(--text); transform: translateY(-3px); }
+
+    /* FOOTER */
+    footer { padding: 2rem; text-align: center; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.82rem; }
+
+    /* SCROLL ANIMATIONS */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-x { opacity: 0; transform: translateX(-20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal-x.in { opacity: 1; transform: translateX(0); }
+    .d1{transition-delay:0.05s} .d2{transition-delay:0.1s} .d3{transition-delay:0.15s} .d4{transition-delay:0.2s} .d5{transition-delay:0.25s}
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      .nav-links{display:none}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:3.8rem;left:0;right:0;background:rgba(10,10,15,0.96);backdrop-filter:blur(20px);padding:1.5rem 2rem;gap:1.2rem;border-bottom:1px solid var(--border);z-index:99}
+      .hamburger{display:flex}
+      .stats-grid{grid-template-columns:repeat(2,1fr)}
+      .proj-grid,.skills-grid,.testi-grid{grid-template-columns:1fr}
+      section{padding:4rem 1.25rem}
+    }
+    @media(max-width:480px){
+      .stats-grid{gap:1rem}
+      .stat-n{font-size:2rem}
+    }
+  </style>
 </head>
+<body>
 
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">SM.</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-<body id="top">
-
-
-    <!-- preloader
-    ================================================== -->
-    <div id="preloader">
-        <div id="loader" class="line"></div>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="pulse"></span>
+      Open to new opportunities
     </div>
+    <h1 class="hero-name">
+      Sudarshan<br><span class="grad">Mehta.</span>
+    </h1>
+    <p class="hero-role">
+      <span class="tw" id="typewriter"></span><span class="cursor"></span>
+    </p>
+    <p class="hero-desc">
+      Software engineer with 6+ years building high-throughput distributed systems and low-latency trading infrastructure at Amazon and Morgan Stanley. Specializing in ML infrastructure, backend systems, and cloud-scale architecture.
+    </p>
+    <div class="hero-ctas">
+      <a href="#experience" class="btn btn-primary">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+        View My Work
+      </a>
+      <a href="mailto:sudarshan.mehtacs@gmail.com" class="btn btn-secondary">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+        Get In Touch
+      </a>
+    </div>
+    <div class="hero-links">
+      <a href="https://github.com/sudarshanmehta" class="hero-link" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"/></svg>
+        GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/sudarshan-mehtacs" class="hero-link" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M18.72 4H5.37A1.31 1.31 0 0 0 4 5.25v13.38A1.41 1.41 0 0 0 5.37 20h13.35A1.34 1.34 0 0 0 20 18.63V5.25A1.23 1.23 0 0 0 18.72 4ZM9 17.34H6.67v-7.13H9ZM7.89 9.13A1.18 1.18 0 0 1 6.67 7.9a1.18 1.18 0 0 1 1.24-1.23A1.18 1.18 0 0 1 9.13 7.9a1.18 1.18 0 0 1-1.24 1.23Zm9.45 8.21H15v-3.9c0-.93-.33-1.57-1.16-1.57a1.25 1.25 0 0 0-1.17.84 1.43 1.43 0 0 0-.08.57v4.06h-2.3v-7.13h2.3v1a2.32 2.32 0 0 1 2.1-1.21c1.51 0 2.65 1 2.65 3.13Z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">
+    <span>Scroll</span>
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
 
+<!-- STATS -->
+<div id="stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-n" data-target="6" data-suffix="+">0</div>
+      <div class="stat-l">Years Experience</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-n" data-target="95" data-suffix="%">0</div>
+      <div class="stat-l">Latency Reduction</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-n" data-target="25" data-suffix="K+">0</div>
+      <div class="stat-l">RPS Sustained</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-n" data-target="42" data-suffix="">0</div>
+      <div class="stat-l">Microservices Managed</div>
+    </div>
+  </div>
+</div>
 
-    <!-- page wrap
-    ================================================== -->
-    <div id="page" class="s-pagewrap">
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="inner">
+    <p class="s-label reveal">Where I've worked</p>
+    <h2 class="s-title reveal d1">Work Experience</h2>
+    <p class="s-sub reveal d2">Building systems at scale across cloud, fintech, and ML — with a track record of measurable impact.</p>
 
+    <div class="exp-line">
 
-        <!-- # site header 
-        ================================================== -->
-        <header id="masthead" class="s-header">
-
-             <div class="s-header__block">
-                <div class="s-header__branding">
-                    <p class="site-title">
-                        <a href="index.html" rel="home">Sudarshan Mehta.</a>
-                    </p>
-                </div>
-
-                <a class="s-header__menu-toggle" href="#0"><span>Menu</span></a>
-            </div> <!-- end s-header__block -->
-
-            <div class="row s-header__nav-wrap">
-
-                <nav class="s-header__nav">
-                    <ul>
-                        <li class="current"><a href="#intro" class="smoothscroll">Intro</a></li>
-                        <li><a href="#about" class="smoothscroll">About</a></li>
-                        <li><a href="#works" class="smoothscroll">Works</a></li>
-                        <li><a href="#colophon" class="smoothscroll">Contact</a></li>
-                    </ul>
-                </nav> <!-- end s-header__nav -->
-
-                <ul class="s-header__social">
-                    <li>
-                        <a href="https://github.com/sudarshanmehta">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"></path></svg>
-                            <span class="u-screen-reader-text">Github</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.linkedin.com/in/sudarshan-mehta-872915171">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, 1);transform:;-ms-filter:"><path fill-rule="evenodd" clip-rule="evenodd" d="M18.72 4H5.37A1.31 1.31 0 0 0 4 5.25v13.38A1.41 1.41 0 0 0 5.37 20h13.35A1.34 1.34 0 0 0 20 18.63V5.25A1.23 1.23 0 0 0 18.72 4ZM9 17.34H6.67v-7.13H9ZM7.89 9.13A1.18 1.18 0 0 1 6.67 7.9a1.18 1.18 0 0 1 1.24-1.23A1.18 1.18 0 0 1 9.13 7.9a1.18 1.18 0 0 1-1.24 1.23Zm9.45 8.21H15v-3.9c0-.93-.33-1.57-1.16-1.57a1.25 1.25 0 0 0-1.17.84a1.43 1.43 0 0 0-.08.57v4.06h-2.3v-7.13h2.3v1a2.32 2.32 0 0 1 2.1-1.21c1.51 0 2.65 1 2.65 3.13Z"></path></svg>
-                            <span class="u-screen-reader-text">Linkedin</span>
-                        </a>
-                    </li>
-                     <li>
-                        <a href="https://www.youtube.com/@sudarshanmehta/featured">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:rgba(0, 0, 0, 1);transform:;-ms-filter:"><path fill-rule="evenodd" clip-rule="evenodd" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                            <span class="u-screen-reader-text">Youtube</span>
-                        </a>
-                    </li>
-                </ul>  <!-- end s-header__social -->
-
-            </div> <!-- end s-header__nav-wrap -->
-
-        </header> <!-- end s-header -->
-
-
-        <!-- intro
-        ================================================== -->
-        <section id="intro" class="s-intro">
-
-            <div class="row">
-                <div class="column lg-12 s-intro__content">
-
-                    <div class="s-intro__text">
-                        <h1 class="s-intro__text-huge animate-on-load">
-                            Sudarshan
-                        </h1>
-                        <h3 class="animate-on-load">Software Developer <span>+</span> Musician</h3>
-                    </div>
-
-                    <div class="s-intro__bg"></div>
-
-                </div>
+      <div class="exp-item reveal-x">
+        <div class="exp-card">
+          <div class="exp-head">
+            <div>
+              <div class="exp-co">Amazon</div>
+              <div class="exp-role">Software Engineer — Console Analytics</div>
             </div>
-
-        </section> <!-- end s-intro -->
-
-
-        <!-- about
-        ================================================== -->
-        <section id="about" class="s-about">
-
-
-            <div class="s-about__block s-about__intro">
-
-                <div class="row">
-                    <div class="column lg-12">
-                        <h2 class="text-pretitle animate-on-load">About Me</h2>
-    
-                        <p class="attention-getter animate-on-load">
-                        I am a Software Engineer having 5+ years of experience in building large scale applications.
-                        I have good expertise in Java Programming Language, Spring MVC, Elasticsearch. I have also done several 
-                        projects which involved AWS Cloud services, Angular Material and Docker containers. Strong engineering 
-                        professional with a Bachelor's Degree focused in Information Technology from MIT Pune and doing my 
-                        graduation from Santa Clara University in Computer Science and Engineering currently.
-                        </p>
-                    </div>
-                </div>
-
-            </div> <!-- end s-about__intro -->
-
-
-            <div class="s-about__block s-about__career">
-
-                <div class="row s-about__career-header">
-                    <div class="column lg-12">
-                        <h2 class="text-pretitle">Resume</h2>
-    
-                        <p class="text-huge-title">
-                        Here is my education, work experience, & some skills I've got.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="row s-about__timeline" data-animate-block>
-                    <div class="column lg-6 stack-on-900 s-about__timeline-section" data-animate-el>
-    
-                        <h2 class="text-subtitle">
-                            Experience
-                        </h2>
-    
-                        <div class="timeline">
-    
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Morgan Stanley</h3>
-                                    <h5 class="timeline__meta">Manager</h5>
-                                    <p class="timeline__timeframe">August 2021 - August 2023</p>
-                                </div>
-                                <div class="timeline__desc">
-                                    <p>I have prior experience at Morgan Stanley, where I was involved in systems related to derivative trading and pricing engines. These systems were predominantly developed using Java and Scala. My responsibilities included integrating new products, optimizing pricing speed, and creating a backup dynamic grid that positively impacted the company's revenue. I also collaborated with teams across different regions, assumed the role of a Scrum Master, and followed Agile methodologies. Additionally, I designed a user interface for data analysis, specifically for comparing exposure at the start and end of the day against preset limits. This interface was widely utilized by the firm's risk managers.</p>
-                                </div>
-                            </div>
-    
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">CLSA</h4>
-                                    <h5 class="timeline__meta">Software Engineer</h5>
-                                    <p class="timeline__timeframe">July 2018 - August 2021</p>
-                                </div>
-                                <div class="timeline__desc">
-                                    <p>I designed and developed an Execution Management System (EMS) for equities trading from scratch. This system incorporates connectivity to various external systems, including the Indian Stock Exchanges NSE/BSE and various global exchanges. I successfully reduced the system's loading time from 3 minutes to under 10 seconds by implementing static data caching. Additionally, I significantly decreased network calls, enhancing efficiency during round trips to exchanges. The technologies used in this EMS include C# and Java</p>
-                                </div>
-                            </div>
-    
-                        </div> <!-- end timeline -->
-    
-                    </div> <!-- end s-about__timeline-section -->
-    
-                    <div class="column lg-6 stack-on-900 s-about__timeline-section" data-animate-el>
-    
-                        <h2 class="text-subtitle">
-                            Education
-                        </h2>
-    
-                        <div class="timeline">
-    
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Santa Clara University</h3>
-                                    <h5 class="timeline__meta">Masters in Computer Science and Engineering</h5>
-                                    <p class="timeline__timeframe">September 2023 - Present</p>
-                                </div>
-                                <div class="timeline__desc">
-                                    <p>I am currently a student at Santa Clara University joined in fall of 2023, currently studying Distributed Systems, Data Structures and Algorithms. My academic performance is reflected in a perfect GPA of 4.0.</p>
-                                </div>
-                            </div>
-    
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">University of Pune</h4>
-                                    <h5 class="timeline__meta">Bachelors in Information Technology</h5>
-                                    <p class="timeline__timeframe">July 2014 - July 2018</p>
-                                </div>
-                                <div class="timeline__desc">
-                                    <p>I completed my undergraduate degree in Information Technology at MIT Academy of Engineering, which is affiliated with Pune University. Throughout my studies, I maintained a strong GPA of 3.4. Additionally, I achieved the first rank in my class and consistently ranked among the top 20 percentile of students.</p>
-                                </div>
-                            </div>
-    
-                        </div> <!-- end timeline -->
-                        
-                    </div> <!-- end s-about__timeline-section -->
-    
-                </div> <!-- end about__timeline -->
-
-                <div class="row s-about__skills" data-animate-block>
-                    <div class="column lg-12" data-animate-el>
-    
-                        <h2 class="text-subtitle">
-                            Skills & Expertise
-                        </h2>
-    
-                        <ul class="skill-bars">
-                            <li>
-                            <div class="progress percent95"></div>
-                            <strong>Java</strong>
-                            </li>
-                            <li>
-                            <div class="progress percent85"></div>
-                            <strong>SQL</strong>
-                            </li>
-                            <li>
-                            <div class="progress percent70"></div>
-                            <strong>Cpp</strong>
-                            </li>
-                            <li>
-                            <div class="progress percent75"></div>
-                            <strong>Python</strong>
-                            </li>
-                            <li>
-                            <div class="progress percent85"></div>
-                            <strong>Angular</strong>
-                            </li>
-                            <li>
-                            <div class="progress percent90"></div>
-                            <strong>Figma</strong>
-                            </li>
-                            <li>
-                            <div class="progress percent85"></div>
-                            <strong>Spring Framework</strong>
-                            </li>
-                            <li>
-                            <div class="progress percent75"></div>
-                            <strong>Flutter</strong>
-                            </li>
-                        </ul>
-    
-                    </div>
-                </div> <!-- end s-about__skills -->
-
-            </div> <!-- end s-about__career -->
-
-        </section> <!-- end s-about -->
-
-
-        <!-- # works
-        ================================================== -->
-        <section id="works" class="s-works">
-
-            <div class="row">
-                <div class="column lg-12">
-                    <h2 class="text-pretitle">Selected Projects</h2>
-
-                    <p class="text-huge-title">
-                    Selected Projects I Have Worked On.
-                    </p>
-                </div>
+            <div style="text-align:right;flex-shrink:0">
+              <span class="exp-period">Jul 2025 – Present</span>
+              <div class="exp-loc">Palo Alto, CA</div>
             </div>
-
-            <div class="row folio-list block-lg-one-half block-stack-on-550" data-animate-block>
-
-                <div class="column" data-animate-el>
-                    <div class="folio-item">
-                        <div class="folio-item__thumb">
-                            <a class="folio-item__thumb-link" href="images/portfolio/gallery/stingray.png" Title="Stingray" data-size="1050x700">
-                                <img src="images/portfolio/gallery/stingrayviper.jpeg" 
-                                     srcset="images/portfolio/gallery/stingrayviper.jpeg 1x, images/portfolio/gallery/stingrayviper.jpeg 2x" alt="">
-                            </a>
-                        </div>
-                        <div class="folio-item__info">
-                            <div class="folio-item__meta">
-                                <span class="cat">OMS/EMS</span>
-                            </div>
-                            <h4 class="folio-item__title">Stingray/Viper</h4>
-                        </div>
-                        <div class="folio-item__caption">
-                            <p>Execution Management Systems.</p>
-                        </div>
-                    </div>
-                </div> <!-- end column -->
-                <div class="column" data-animate-el>
-                    <div class="folio-item">
-                        <div class="folio-item__thumb">
-                            <a class="folio-item__thumb-link" href="images/portfolio/gallery/taserex.png" title="Taser" data-size="1050x700">
-                                <img src="images/portfolio/gallery/taser.jpg" 
-                                     srcset="images/portfolio/gallery/taser.jpg 1x, images/portfolio/gallery/taser.jpg 2x" alt="">
-                            </a>
-                        </div>
-                        <div class="folio-item__info">
-                            <div class="folio-item__meta">
-                                <span class="cat">Pre Trade Approval System</span>
-                            </div>
-                            <h4 class="folio-item__title">Taser</h4>
-                        </div>
-                        <div class="folio-item__caption">
-                            <p>Pre Trade Approval System for approving derivative trades for processing.</p>
-                        </div>
-                    </div>
-                </div> <!-- end column -->
-                <div class="column" data-animate-el>
-                    <div class="folio-item">
-                        <div class="folio-item__thumb">
-                            <a class="folio-item__thumb-link" href="images/portfolio/gallery/appscreens.png" title="College Finder" data-size="1050x700">
-                                <img src="images/portfolio/gallery/collegefinder.png" 
-                                     srcset="images/portfolio/collegefinder.png 1x, images/portfolio/gallery/collegefinder.png 2x" alt="">
-                            </a>
-                        </div>
-                        <div class="folio-item__info">
-                            <div class="folio-item__meta">
-                                <span class="cat">Product Design</span>
-                                <a href="https://www.figma.com/proto/OD20l48bFq8MoKkagy7RVw/College-Application?page-id=0%3A1&type=design&node-id=0-1&viewport=452%2C634%2C0.12&t=0A0kyu7mZjt4O4GO-1&scaling=scale-down&starting-point-node-id=401%3A354&mode=design" title="Project Link" class="project-link">Project Link</a>
-                            </div>
-                            <h4 class="folio-item__title">College Finder</h4>
-                        </div>
-                        <div class="folio-item__caption">
-                            <p>App built for students who are unaware about benefits provided like scholarships.</p>
-                        </div>
-                    </div>
-                </div> <!-- end column -->
-                <div class="column" data-animate-el>
-                    <div class="folio-item">
-                        <div class="folio-item__thumb">
-                            <a class="folio-item__thumb-link" href="images/portfolio/youtube@2x.png" title="Youtube" data-size="1050x700">
-                                <img src="images/portfolio/youtube.png" 
-                                     srcset="images/portfolio/youtube.png 1x, images/portfolio/youtube@2x.png 2x" alt="">
-                            </a>
-                        </div>
-                        <div class="folio-item__info">
-                            <div class="folio-item__meta">
-                                <span class="cat">Music</span>
-                                <a href="https://www.youtube.com/watch?v=kYlZxC5iapc" title="Project Link" class="project-link">Project Link</a>
-                            </div>
-                            <h4 class="folio-item__title">Youtube</h4>
-                        </div>
-                        <div class="folio-item__caption">
-                            <p>A cover of a song from a bollywood movie RockOn.</p>
-                        </div>
-                    </div>
-                </div> <!-- end column -->
-    
-            </div> <!-- folio-list -->
-
-            <div class="row testimonials">
-                <div class="column lg-12">
-    
-                    <div class="swiper testimonial-slider">
-    
-                        <div class="swiper-wrapper">
-
-                            <div class="testimonial-slider__slide swiper-slide">
-                                <p>
-                                Sudarshan has been a glorified star of our team. He took very less time in understanding 
-                                our company’s organizational values, the working and our culture. In a short period of time 
-                                since joining, he was able to completely harmonize with his peers and deliver high-quality 
-                                releases with incredible production support.
-                                </p>
-                                <div class="testimonial-slider__author">
-                                    <img src="images/avatars/user-02.jpg" alt="Author image" class="testimonial-slider__avatar">
-                                    <cite class="testimonial-slider__cite">
-                                        <strong>Vishal Harne</strong>
-                                        <span>Associate Director @UBS.</span>
-                                    </cite>
-                                </div>
-                            </div> <!-- end testimonial-slider__slide -->
-            
-                            <div class="testimonial-slider__slide swiper-slide">
-                                <p>
-                                Sudarshan was my reportee at Morgan Stanley and he has made impactful changes in systems.
-                                He has been a go to person within a span of 6 months for the system and also got promoted
-                                and won various awards. He has also reduced the latency of pricing engine which indirectly
-                                benefitted the firm in terms of revenue. He is technically very strong and holds a good
-                                command on what he is working. 
-                                </p>
-                                <div class="testimonial-slider__author">
-                                    <img src="images/avatars/user-03.jpg" alt="Author image" class="testimonial-slider__avatar">
-                                    <cite class="testimonial-slider__cite">
-                                        <strong>Tarachand Dewangan</strong>
-                                        <span>Executive Director @Morgan Stanley.</span>
-                                    </cite>
-                                </div>
-                            </div> <!-- end testimonial-slider__slide -->
-            
-                            <div class="testimonial-slider__slide swiper-slide">
-                                <p>
-                                Sudarshan and I have worked together on a Hackathon (which we won :-)) and also on setting
-                                up regression pack for integration tests on automation tools. He has brilliant grasping
-                                power and understood complex systems with utter ease which demonstrated how capable 
-                                technically he is, it's been a pleasure working with him.
-                                </p>
-                                <div class="testimonial-slider__author">
-                                    <img src="images/avatars/user-01.jpg" alt="Author image" class="testimonial-slider__avatar">
-                                    <cite class="testimonial-slider__cite">
-                                        <strong>Amol Chaskar</strong>
-                                        <span>Director @CLSA.</span>
-                                    </cite>
-                                </div>
-                            </div> <!-- end testimonial-slider__slide -->
-
-                            <div class="testimonial-slider__slide swiper-slide">
-                                <p>
-                                Sudarshan has been excellent in performing all the tasks. He has worked with me on setting up
-                                ELK stack for QA Team at CLSA for analyzing logs which reduced manual effort of filtering
-                                through logs drastically. He is very strong technically.
-                                </p>
-                                <div class="testimonial-slider__author">
-                                    <img src="images/avatars/user-05.jpg" alt="Author image" class="testimonial-slider__avatar">
-                                    <cite class="testimonial-slider__cite">
-                                        <strong>Mukesh Pedneker</strong>
-                                        <span>Director @UBS.</span>
-                                    </cite>
-                                </div>
-                            </div> <!-- end testimonial-slider__slide -->
-        
-                        </div> <!-- end swiper-wrapper -->
-
-                        <div class="testimonial-slider__next">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"></path></svg>
-                        </div>
-                        <div class="testimonial-slider__prev">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M12.707 17.293 8.414 13H18v-2H8.414l4.293-4.293-1.414-1.414L4.586 12l6.707 6.707z"></path></svg>
-                        </div>
-    
-                        <div class="swiper-pagination"></div>
-    
-                    </div> <!-- end testimonial-slider -->
-    
-                </div> <!-- end column -->
-            </div> <!-- end row testimonials -->
-
-        </section> <!-- end s-works -->
-
-
-        <!-- # site footer
-        ================================================== -->
-        <footer id="colophon" class="s-footer">
-
-            <div class="row s-footer__contact-header">
-                <div class="column lg-12">
-                    <h2 class="text-pretitle">Get In Touch</h2>
-
-                    <p class="text-huge-title">
-                        Feel free to reach out if you wanna collaborate with me, or simply have a chat.
-                    </p>
-                </div>
-            </div> <!-- end s-footer__content -->
-
-            <div class="row s-footer__contact-content">
-
-                <div class="column lg-5 md-6 stack-on-900 left-block">
-                    <p>There is also pain in the body. 
-                        Wherefore we are afflicted with pain at the time of things. 
-                        Blessed are we who are nothing. 
-                        The least of these is the pain of being rejected.
-                    <div class="s-footer__buttons">
-                        <a href="mailto:sudarshan.mehtacs@gmail.com" class="btn btn--primary u-fullwidth">Say Hello</a>
-                        <a href="https://drive.google.com/file/d/1JUSZPzN2Mlf_tWBW1I2lS2a-Y_iD9ZoE/view?usp=sharing" class="btn btn--stroke u-fullwidth">Get My CV</a>
-                    </div>
-
-                    </p>
-                </div>
-
-                <div class="column lg-4 md-5 stack-on-900 right-block">
-
-                    <div class="s-footer__contact-info" >
-                        <h2 class="text-subtitle">
-                            Start A Project
-                        </h2>
-                        <ul class="link-list">
-                            <li><a href="mailto:sudarshan.mehtacs@gmail.com">sudarshan.mehtacs@gmail.com</a></li>
-                            <li><a href="tel:+16692819888">+1669 281 9888</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="s-footer__social">
-                        <h2 class="text-subtitle">
-                            Connect
-                        </h2>
-                        <ul class="link-list">
-                            <li><a href="https://github.com/sudarshanmehta">Github</a></li>
-                            <li><a href="https://www.linkedin.com/in/sudarshan-mehta-872915171">LinkedIn</a></li>
-                            <li><a href="https://www.youtube.com/@sudarshanmehta/featured">Youtube</a></li>
-                        </ul>
-                    </div>
-                    
-                </div>
-            </div> <!-- end s-footer__contact-content -->
-
-            <div class="row s-footer__bottom">
-                <div class="column ss-copyright">
-                    <span>© Copyright Sudarshan 2023 - 2024</span> 
-                    <span>Design by <a href="https://www.styleshout.com/">StyleShout</a></span>
-                </div>
-
-                <div class="ss-go-top">
-                    <a class="smoothscroll" title="Back to Top" href="#top">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M6 4h12v2H6zm5 10v6h2v-6h5l-6-6-6 6z"></path></svg>
-                    </a>
-                </div>
-            </div> <!-- end s-footer__bottom-->
-
-        </footer> <!-- end s-footer -->
-
-    </div> <!-- end s-pagewrap -->
-
-
-    <!-- photoswipe background
-    ================================================== -->
-    <div aria-hidden="true" class="pswp" role="dialog" tabindex="-1">
-
-        <div class="pswp__bg"></div>
-        <div class="pswp__scroll-wrap">
-
-            <div class="pswp__container">
-                <div class="pswp__item"></div>
-                <div class="pswp__item"></div>
-                <div class="pswp__item"></div>
-            </div>
-
-            <div class="pswp__ui pswp__ui--hidden">
-                <div class="pswp__top-bar">
-                    <div class="pswp__counter"></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button> <button class="pswp__button pswp__button--share" title=
-                    "Share"></button> <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button> <button class="pswp__button pswp__button--zoom" title=
-                    "Zoom in/out"></button>
-                    <div class="pswp__preloader">
-                        <div class="pswp__preloader__icn">
-                            <div class="pswp__preloader__cut">
-                                <div class="pswp__preloader__donut"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                    <div class="pswp__share-tooltip"></div>
-                </div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button> <button class="pswp__button pswp__button--arrow--right" title=
-                "Next (arrow right)"></button>
-                <div class="pswp__caption">
-                    <div class="pswp__caption__center"></div>
-                </div>
-            </div>
-
+          </div>
+          <ul class="exp-bullets">
+            <li>Built a dataset pipeline using Helios to generate <strong>fractional engagement metrics</strong> powering personalized experiences across AWS Console.</li>
+            <li>Designed and shipped a <strong>dynamic UI generation system</strong> — a chat agent takes user input and renders contextual UIs in real time, built end-to-end using Amazon Q (Aurora).</li>
+            <li>Simplified a complex legacy architecture into a single-cell design, improving performance and deployment reliability significantly.</li>
+            <li>Orchestrated multi-stage data workflows using Apache Airflow, AWS Lambda, DynamoDB, and Step Functions.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Java</span><span class="tag">Python</span><span class="tag">AWS Lambda</span><span class="tag">DynamoDB</span><span class="tag">Apache Airflow</span><span class="tag">Amazon Q</span><span class="tag">Step Functions</span>
+          </div>
         </div>
+      </div>
 
-    </div> <!-- end photoSwipe background -->
+      <div class="exp-item reveal-x d1">
+        <div class="exp-card">
+          <div class="exp-head">
+            <div>
+              <div class="exp-co">Cadence Design Systems</div>
+              <div class="exp-role">Software Development Engineer</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <span class="exp-period">Jun 2024 – Sep 2024</span>
+              <div class="exp-loc">San Jose, CA</div>
+            </div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Designed specs for Transaction Filter and Link Browser features for <strong>Verisium Debug</strong>, an EDA tool for debugging RTL simulation flows.</li>
+            <li>Implemented complete functionality end-to-end with full test coverage, following design principles to maintain code quality.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Java 11</span><span class="tag">Swing</span>
+          </div>
+        </div>
+      </div>
 
+      <div class="exp-item reveal-x d2">
+        <div class="exp-card">
+          <div class="exp-head">
+            <div>
+              <div class="exp-co">Morgan Stanley</div>
+              <div class="exp-role">Software Development Engineer II</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <span class="exp-period">Jan 2023 – Sep 2023</span>
+              <div class="exp-loc">Bangalore, India</div>
+            </div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Engineered a dynamic pricing grid using maturity-based linear interpolation, cutting latency from <strong>2 minutes to under 100ms</strong> — a 95% improvement.</li>
+            <li>Managed <strong>42 microservices on Kubernetes</strong> with load balancing, sustaining 25,000+ RPS at peak load.</li>
+            <li>Built Rice, a low-latency pricing engine in Scala for real-time fixed income trade pricing.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Java</span><span class="tag">Scala</span><span class="tag">Spring Boot</span><span class="tag">Kafka</span><span class="tag">Kubernetes</span><span class="tag">Azure</span><span class="tag">Docker</span>
+          </div>
+        </div>
+      </div>
 
-    <!-- Java Script
-    ================================================== -->
-    <script src="js/plugins.js"></script>
-    <script src="js/main.js"></script>
+      <div class="exp-item reveal-x d3">
+        <div class="exp-card">
+          <div class="exp-head">
+            <div>
+              <div class="exp-co">Morgan Stanley</div>
+              <div class="exp-role">Software Development Engineer I</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <span class="exp-period">Aug 2021 – Jan 2023</span>
+              <div class="exp-loc">Bangalore, India</div>
+            </div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Owned Taser (Trade Approval System) end-to-end on Azure, reducing <strong>trade approval latency by 40%</strong>.</li>
+            <li>Built a full CI/CD pipeline with Jenkins, Bitbucket, and Azure — enabling fully automated releases.</li>
+            <li>Raised unit test coverage from <strong>35% to 80%</strong> with a comprehensive regression pack.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">Angular</span><span class="tag">Jenkins</span><span class="tag">Azure</span><span class="tag">IBM Db2</span>
+          </div>
+        </div>
+      </div>
 
+      <div class="exp-item reveal-x d4">
+        <div class="exp-card">
+          <div class="exp-head">
+            <div>
+              <div class="exp-co">CLSA Technology &amp; Services</div>
+              <div class="exp-role">Software Development Engineer I</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <span class="exp-period">Jul 2018 – Aug 2021</span>
+              <div class="exp-loc">Pune, India</div>
+            </div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Built <strong>Stingray</strong>, a high-touch low-latency equity trading system from scratch — connected to 11 exchanges worldwide on AWS.</li>
+            <li>Cut system load time from 3 minutes to under 10 seconds — a <strong>94% reduction</strong> — via static data caching and network call optimization.</li>
+            <li>Built a custom log analysis tool mapping interconnected IDs and surfacing system insights similar to Elasticsearch.</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">Java</span><span class="tag">C#</span><span class="tag">.NET</span><span class="tag">Spring Boot</span><span class="tag">PostgreSQL</span><span class="tag">MongoDB</span><span class="tag">AWS</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="border-top:1px solid var(--border)">
+  <div class="inner">
+    <p class="s-label reveal">What I've built</p>
+    <h2 class="s-title reveal d1">Projects</h2>
+    <p class="s-sub reveal d2">From LLM infrastructure to systems programming — projects that go deep.</p>
+
+    <div class="proj-grid">
+      <div class="proj-card reveal d1">
+        <div class="proj-icon">🤖</div>
+        <div>
+          <div class="proj-cat">Open Source · LLM Infrastructure</div>
+          <div class="proj-title">TuneX</div>
+        </div>
+        <p class="proj-desc">Fine-tuning platform that lets users train any open-source LLM on custom datasets — no ML expertise required. Handles data ingestion, training, and inference in one workflow.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">React</span><span class="tag">HuggingFace</span></div>
+      </div>
+
+      <div class="proj-card reveal d2">
+        <div class="proj-icon">⚡</div>
+        <div>
+          <div class="proj-cat">Research · ML Systems</div>
+          <div class="proj-title">Smart NIC Tokenization</div>
+        </div>
+        <p class="proj-desc">Investigating offloading LLM tokenization to NVIDIA Smart NICs via Triton Inference Server to reduce time-to-first-token. Research conducted at Santa Clara University.</p>
+        <div class="tags"><span class="tag tag-c">NVIDIA Triton</span><span class="tag tag-c">C++</span><span class="tag tag-c">Python</span></div>
+      </div>
+
+      <div class="proj-card reveal d3">
+        <div class="proj-icon">🗄️</div>
+        <div>
+          <div class="proj-cat">Systems Programming</div>
+          <div class="proj-title">Relational Database Engine</div>
+        </div>
+        <p class="proj-desc">Built a relational database from scratch in C++ — storage engine, SQL query parser, full CRUD, JOIN operations, and B-tree indexing for efficient query execution.</p>
+        <div class="tags"><span class="tag">C++</span></div>
+      </div>
+
+      <div class="proj-card reveal d4">
+        <div class="proj-icon">🗺️</div>
+        <div>
+          <div class="proj-cat">Full Stack</div>
+          <div class="proj-title">Beyond Stars</div>
+        </div>
+        <p class="proj-desc">Real-time restaurant discovery app using geospatial hit-counting on lat/long coordinates instead of static star ratings — surfaces trending spots based on actual visit density.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">React</span><span class="tag">PostgreSQL</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="inner">
+    <p class="s-label reveal">Technical toolkit</p>
+    <h2 class="s-title reveal d1">Skills</h2>
+    <p class="s-sub reveal d2">Languages, frameworks, and infrastructure I work with.</p>
+    <div class="skills-grid">
+      <div class="skill-group reveal d1">
+        <div class="sk-title">Languages</div>
+        <div class="sk-tags">
+          <span class="sk-tag">Java</span><span class="sk-tag">Python</span><span class="sk-tag">Go</span>
+          <span class="sk-tag">C++</span><span class="sk-tag">Scala</span><span class="sk-tag">TypeScript</span><span class="sk-tag">C#</span>
+        </div>
+      </div>
+      <div class="skill-group reveal d2">
+        <div class="sk-title">Frameworks & Libraries</div>
+        <div class="sk-tags">
+          <span class="sk-tag">Spring Boot</span><span class="sk-tag">Flask</span><span class="sk-tag">React</span>
+          <span class="sk-tag">Angular</span><span class="sk-tag">TensorFlow</span><span class="sk-tag">NVIDIA Triton</span><span class="sk-tag">HuggingFace</span>
+        </div>
+      </div>
+      <div class="skill-group reveal d3">
+        <div class="sk-title">Cloud & Infrastructure</div>
+        <div class="sk-tags">
+          <span class="sk-tag">AWS</span><span class="sk-tag">Azure</span><span class="sk-tag">Kubernetes</span>
+          <span class="sk-tag">Docker</span><span class="sk-tag">Apache Kafka</span><span class="sk-tag">Apache Airflow</span><span class="sk-tag">Jenkins</span>
+        </div>
+      </div>
+      <div class="skill-group reveal d4">
+        <div class="sk-title">Databases</div>
+        <div class="sk-tags">
+          <span class="sk-tag">PostgreSQL</span><span class="sk-tag">DynamoDB</span><span class="sk-tag">MongoDB</span>
+          <span class="sk-tag">MySQL</span><span class="sk-tag">IBM Db2</span><span class="sk-tag">Firebase</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" style="border-top:1px solid var(--border)">
+  <div class="inner">
+    <p class="s-label reveal">Academic background</p>
+    <h2 class="s-title reveal d1">Education</h2>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:2.5rem" id="edu-grid">
+      <div class="proj-card reveal d1">
+        <div class="proj-icon" style="background:rgba(124,58,237,0.15)">🎓</div>
+        <div>
+          <div class="proj-cat">Sep 2023 – Mar 2025</div>
+          <div class="proj-title">Santa Clara University</div>
+        </div>
+        <p class="proj-desc">M.S. Computer Science &amp; Engineering · GPA 3.85 / 4.0<br><br>Research: LLM tokenization offloading to NVIDIA Smart NICs · ACM · Hack for Humanity · Competitive Programming Club</p>
+      </div>
+      <div class="proj-card reveal d2">
+        <div class="proj-icon" style="background:rgba(6,182,212,0.12)">🏛️</div>
+        <div>
+          <div class="proj-cat">Jul 2014 – Jul 2018</div>
+          <div class="proj-title">MIT Academy of Engineering</div>
+        </div>
+        <p class="proj-desc">B.E. Information Technology · University of Pune<br><br>First rank in class · Consistently top 20 percentile of students.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" style="border-top:1px solid var(--border)">
+  <div class="inner">
+    <p class="s-label reveal">What people say</p>
+    <h2 class="s-title reveal d1">Testimonials</h2>
+    <div class="testi-grid">
+
+      <div class="testi-card reveal d1">
+        <div class="testi-q">"</div>
+        <p class="testi-text">Sudarshan joined my team for the 2024 summer internship and made a significant contribution to the assigned project, working closely with senior R&amp;D and product managers across geographies. He ramped up on the codebase and dev infrastructure within a week, with major functionality working within the first month. He used solid Java, data structures, and algorithm skills to deliver on performance goals. An eager &amp; quick learner, great communicator who strives to go above and beyond. I recommend him highly for software engineering roles.</p>
+        <div class="testi-author">
+          <img src="data:image/jpeg;base64,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" alt="Rohit Markande" class="testi-img">
+          <div><div class="testi-name">Rohit Markande</div><div class="testi-role">Engineering Manager · Cadence Design Systems</div></div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal d2">
+        <div class="testi-q">"</div>
+        <p class="testi-text">Sudarshan, my former reportee at Morgan Stanley, made significant contributions to our systems. Within just six months, he became the go-to person for system-related matters. His technical prowess was evident as he reduced latency in the pricing engine, indirectly benefiting the firm's revenue. His achievements led to well-deserved promotions and awards. His exceptional talent lies in his ability to quickly grasp new concepts — both technical and functional — and apply them efficiently without much effort.</p>
+        <div class="testi-author">
+          <img src="data:image/jpeg;base64,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" alt="Tarachand Dewangan" class="testi-img">
+          <div><div class="testi-name">Tarachand Dewangan</div><div class="testi-role">Executive Director · Morgan Stanley</div></div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal d3">
+        <div class="testi-q">"</div>
+        <p class="testi-text">I had the pleasure of working with Sudarshan during his 2024 summer internship, and I was thoroughly impressed by his performance. He ramped up quickly, demonstrating a strong technical grasp of Java and an impressive attention to detail. He is an exceptionally fast learner — whenever there was an issue, he acted swiftly and efficiently. I am confident he will be a valuable team player and a tremendous asset to any team he joins.</p>
+        <div class="testi-author">
+          <img src="data:image/jpeg;base64,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" alt="Shu Ye" class="testi-img">
+          <div><div class="testi-name">Shu Ye</div><div class="testi-role">Principal Software Engineer · Cadence Design Systems</div></div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal d4">
+        <div class="testi-q">"</div>
+        <p class="testi-text">Sudarshan is a good professional. He is technically very talented and has good communication skills. He is quite flexible and easy to work with. He is a fast learner and a great developer. I highly recommend Sudarshan.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#10b981,#06b6d4)">VG</div>
+          <div><div class="testi-name">Vishal Gawai</div><div class="testi-role">Director, Agency Trading · UBS</div></div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal d1">
+        <div class="testi-q">"</div>
+        <p class="testi-text">Sudarshan has been a glorified star of our team. He took very little time in understanding our company's organizational values, the working and our culture. In a short period since joining, he was able to completely harmonize with his peers and deliver high-quality releases with incredible production support.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">VH</div>
+          <div><div class="testi-name">Vishal Harne</div><div class="testi-role">Associate Director · UBS</div></div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal d2">
+        <div class="testi-q">"</div>
+        <p class="testi-text">Sudarshan and I worked together on a Hackathon (which we won!) and also on setting up regression pack for integration tests on automation tools. He has brilliant grasping power and understood complex systems with utter ease which demonstrated how capable technically he is — it's been a pleasure working with him.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">AC</div>
+          <div><div class="testi-name">Amol Chaskar</div><div class="testi-role">Director · CLSA</div></div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal d3">
+        <div class="testi-q">"</div>
+        <p class="testi-text">Sudarshan has been excellent in performing all the tasks. He worked with me on setting up ELK stack for the QA team at CLSA for analyzing logs which reduced manual effort of filtering through logs drastically. He is very strong technically.</p>
+        <div class="testi-author">
+          <div class="testi-av" style="background:linear-gradient(135deg,#ef4444,#f59e0b)">MP</div>
+          <div><div class="testi-name">Mukesh Pedneker</div><div class="testi-role">Director · UBS</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <p class="s-label">Get in touch</p>
+    <h2 class="s-title">Let's Talk</h2>
+    <p style="color:var(--text-secondary);font-size:0.95rem;line-height:1.7;margin-top:0.75rem">
+      Open to discussing distributed systems, ML infrastructure, or any interesting engineering challenge. Recruiters, engineers, and curious minds — feel free to reach out.
+    </p>
+    <div><a href="mailto:sudarshan.mehtacs@gmail.com" class="contact-email">sudarshan.mehtacs@gmail.com</a></div>
+    <div class="contact-links">
+      <a href="https://github.com/sudarshanmehta" class="c-link" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"/></svg>
+        GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/sudarshan-mehtacs" class="c-link" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M18.72 4H5.37A1.31 1.31 0 0 0 4 5.25v13.38A1.41 1.41 0 0 0 5.37 20h13.35A1.34 1.34 0 0 0 20 18.63V5.25A1.23 1.23 0 0 0 18.72 4ZM9 17.34H6.67v-7.13H9ZM7.89 9.13A1.18 1.18 0 0 1 6.67 7.9a1.18 1.18 0 0 1 1.24-1.23A1.18 1.18 0 0 1 9.13 7.9a1.18 1.18 0 0 1-1.24 1.23Zm9.45 8.21H15v-3.9c0-.93-.33-1.57-1.16-1.57a1.25 1.25 0 0 0-1.17.84 1.43 1.43 0 0 0-.08.57v4.06h-2.3v-7.13h2.3v1a2.32 2.32 0 0 1 2.1-1.21c1.51 0 2.65 1 2.65 3.13Z"/></svg>
+        LinkedIn
+      </a>
+      <a href="tel:+16692819888" class="c-link">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.28h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.75-.76a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +1 (669) 281-9888
+      </a>
+      <a href="https://drive.google.com/file/d/1JUSZPzN2Mlf_tWBW1I2lS2a-Y_iD9ZoE/view?usp=sharing" class="c-link" target="_blank" rel="noopener">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Download CV
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Sudarshan Mehta</span>
+</footer>
+
+<script>
+  // Smooth scroll — explicit JS handler so it works everywhere (iframes, all browsers)
+  const NAV_H = () => document.querySelector('nav').offsetHeight + 8;
+  document.addEventListener('click', function(e) {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - NAV_H(), behavior: 'smooth' });
+  });
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('nav-links');
+  hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+  // Typewriter
+  const roles = ['Software Engineer','Distributed Systems','ML Infrastructure','Low-Latency Systems','Backend Architect'];
+  const tw = document.getElementById('typewriter');
+  let ri = 0, ci = 0, del = false;
+  function type() {
+    const cur = roles[ri];
+    tw.textContent = del ? cur.slice(0, --ci) : cur.slice(0, ++ci);
+    if (!del && ci === cur.length) { del = true; setTimeout(type, 1800); return; }
+    if (del && ci === 0) { del = false; ri = (ri + 1) % roles.length; }
+    setTimeout(type, del ? 38 : 78);
+  }
+  setTimeout(type, 700);
+
+  // Counter animation
+  function animateCounter(el) {
+    const target = +el.dataset.target, suffix = el.dataset.suffix || '';
+    const start = performance.now();
+    (function tick(now) {
+      const p = Math.min((now - start) / 1400, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(ease * target) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    })(start);
+  }
+  new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      document.querySelectorAll('.stat-n').forEach(animateCounter);
+    }
+  }, { threshold: 0.5 }).observe(document.getElementById('stats'));
+
+  // Scroll reveal
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal, .reveal-x').forEach(el => obs.observe(el));
+
+  // Education grid responsive
+  const eduGrid = document.getElementById('edu-grid');
+  function fixEduGrid() {
+    eduGrid.style.gridTemplateColumns = window.innerWidth < 768 ? '1fr' : 'repeat(2,1fr)';
+  }
+  fixEduGrid();
+  window.addEventListener('resize', fixEduGrid);
+</script>
 </body>
 </html>
