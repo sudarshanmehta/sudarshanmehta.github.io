@@ -97,7 +97,7 @@
     .hero-link { color: var(--text-muted); text-decoration: none; font-size: 0.88rem; font-weight: 500; display: flex; align-items: center; gap: 0.35rem; transition: color 0.2s; }
     .hero-link:hover { color: var(--accent-light); }
     .hit-counter { margin-top: 1.8rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.78rem; letter-spacing: 0.05em; }
-    .hit-counter img { border-radius: 4px; }
+    .hit-counter-val { color: var(--accent-light); font-weight: 700; font-size: 0.88rem; }
     .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.4rem; color: var(--text-muted); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; animation: scrollBounce 2s ease-in-out infinite; }
     @keyframes scrollBounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
 
@@ -266,7 +266,9 @@
       </a>
     </div>
     <div class="hit-counter">
-      <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fsudarshanmehta.github.io&count_bg=%237C3AED&title_bg=%231a1a2e&icon=eye&icon_color=%2306b6d4&title=visitors&edge_flat=true" alt="Visitor count" height="20">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      <span id="hit-count" class="hit-counter-val">—</span>
+      <span>unique visitors</span>
     </div>
     <div class="hero-links">
       <a href="https://github.com/sudarshanmehta" class="hero-link" target="_blank" rel="noopener">
@@ -720,6 +722,14 @@
   }
   fixEduGrid();
   window.addEventListener('resize', fixEduGrid);
+
+  fetch('https://api.countapi.xyz/hit/sudarshanmehta.github.io/visits')
+    .then(r => r.json())
+    .then(d => {
+      const el = document.getElementById('hit-count');
+      if (el && d.value) el.textContent = d.value.toLocaleString();
+    })
+    .catch(() => {});
 </script>
 </body>
 </html>
