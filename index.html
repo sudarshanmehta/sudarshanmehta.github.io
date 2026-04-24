@@ -266,9 +266,7 @@
       </a>
     </div>
     <div class="hit-counter">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-      <span id="hit-count" class="hit-counter-val">—</span>
-      <span>unique visitors</span>
+      <img src="https://hits.sh/sudarshanmehta.github.io.svg?style=flat-square&color=7c3aed&label=visitors&labelColor=1a1a2e" alt="Visitor count" height="22" style="border-radius:4px;">
     </div>
     <div class="hero-links">
       <a href="https://github.com/sudarshanmehta" class="hero-link" target="_blank" rel="noopener">
@@ -723,13 +721,6 @@
   fixEduGrid();
   window.addEventListener('resize', fixEduGrid);
 
-  fetch('https://api.counterapi.dev/v1/sudarshanmehta/visits/up')
-    .then(r => r.json())
-    .then(d => {
-      const el = document.getElementById('hit-count');
-      if (el && d.count != null) el.textContent = d.count.toLocaleString();
-    })
-    .catch(() => {});
 </script>
 </body>
 </html>
